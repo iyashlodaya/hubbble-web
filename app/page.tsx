@@ -1,8 +1,7 @@
-export default function Home() {
-  return (
-    <main>
-      <h1>Welcome to Hubbble Web</h1>
-    </main>
-  );
-}
+import { redirect } from 'next/navigation';
+import { getAuthRedirectPath } from '@/lib/auth';
 
+export default function RootPage() {
+  // Redirect based on auth state
+  redirect(getAuthRedirectPath());
+}
