@@ -101,7 +101,7 @@ export default function SignupPage() {
           </div>
           <h1 className={styles.successTitle}>Account created!</h1>
           <p className={styles.successText}>
-            Welcome to Hubble. Let's get you set up.
+            Welcome to Hubble. Let&apos;s get you set up.
           </p>
           <Button
             onClick={() => {
@@ -138,7 +138,7 @@ export default function SignupPage() {
             onChange={handleChange('email')}
             onBlur={handleBlur('email')}
             error={touched.email ? errors.email : undefined}
-            helperText="We'll never share your email"
+            helperText="We&apos;ll never share your email"
             autoComplete="email"
             required
           />

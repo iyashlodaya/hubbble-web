@@ -180,7 +180,7 @@ export default function LoginPage() {
         </form>
 
         <p className={styles.loginLink}>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup" className={styles.link}>
             Sign up
           </Link>
