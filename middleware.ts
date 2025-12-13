@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const isLoggedIn = process.env.NEXT_PUBLIC_LOGGED_IN === 'true';
+  const isLoggedIn = false;
   const { pathname } = request.nextUrl;
 
   // If logged in and trying to access auth pages, redirect to home
