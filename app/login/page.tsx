@@ -76,6 +76,7 @@ export default function LoginPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (isLoggedIn()) {
+      console.log('isLoggedIn -', isLoggedIn())
       router.push('/home');
     }
   }, [router]);
@@ -130,7 +131,7 @@ export default function LoginPage() {
       });
 
       // Check if login was successful
-      if (response.success && response.data) {
+      if (response.data) {
         // Update auth state (you might want to use a context or state management)
         // For now, we'll rely on the token being stored in localStorage by the interceptor
         

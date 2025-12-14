@@ -113,18 +113,19 @@ export default function SignupPage() {
       const response = await signup({
         email: formData.email,
         password: formData.password,
-        confirm_password: formData.confirmPassword,
         full_name: additionalFields.full_name,
         profession: additionalFields.profession,
       });
 
+      console.log('Response --->', response);
+
       // Check if signup was successful
-      if (response.success && response.data) {
+      if (response.data) {
         // Token is automatically stored in localStorage by the service
         setIsSuccess(true);
         // Redirect to onboarding after a brief delay to show success message
         setTimeout(() => {
-          console.log('sending to onboarding')
+          console.log('sending to home')
           router.push('/onboarding');
         }, 2000);
       } else {

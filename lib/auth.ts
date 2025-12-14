@@ -4,8 +4,10 @@
  */
 
 export function isLoggedIn(): boolean {
+  console.log('IsLoggedIn called');
   const accessToken = localStorage.getItem('auth_token');
 
+  console.log('Access Token', accessToken)
   if(!accessToken) {
     return false
   }

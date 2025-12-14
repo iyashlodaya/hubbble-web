@@ -11,24 +11,22 @@ export default function HomePage() {
 
   // Redirect to login if not logged in
   useEffect(() => {
-    console.log('isLoggedIn ---', isLoggedIn())
+    console.log('isLoggedIn  in home ---', isLoggedIn())
     if (!isLoggedIn()) {
       console.log('Redireccting to login page')
       router.push('/login');
     }
   }, [router]);
 
-  // Don't render if not logged in (will redirect)
-  if (!isLoggedIn()) {
-    return null;
-  }
-
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <Logo />
         <nav className={styles.nav}>
-          <button className={styles.logoutButton} onClick={() => router.push('/login')}>
+          <button className={styles.logoutButton} onClick={() => {
+            localStorage.clear()
+            router.push('/login');
+          }}>
             Log out
           </button>
         </nav>
