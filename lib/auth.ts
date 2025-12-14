@@ -4,6 +4,11 @@
  */
 
 export function isLoggedIn(): boolean {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
+    return false;
+  }
+  
   console.log('IsLoggedIn called');
   const accessToken = localStorage.getItem('auth_token');
 
