@@ -4,7 +4,14 @@
  */
 
 export function isLoggedIn(): boolean {
-  return process.env.NEXT_PUBLIC_LOGGED_IN === 'true';
+  const accessToken = localStorage.getItem('auth_token');
+
+  if(!accessToken) {
+    return false
+  }
+  else {
+    return true
+  }
 }
 
 export function getAuthRedirectPath(): string {

@@ -6,6 +6,8 @@ import Logo from '@/components/auth/Logo';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import { isLoggedIn } from '@/lib/auth';
+import { login } from '@/lib/api';
+import type { ApiError } from '@/lib/api';
 import styles from '../signup/signup.module.css';
 import Link from 'next/link';
 
@@ -69,6 +71,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -102,6 +105,9 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Clear previous API errors
+    setApiError(null);
+    
     const validation = validateLoginForm(formData);
     setErrors(validation.errors);
     
@@ -116,14 +122,43 @@ export default function LoginPage() {
 
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    
-    // In a real app, you'd set auth state and redirect
-    // For now, redirect to home (assuming login was successful)
-    router.push('/home');
+    try {
+      // Call login API
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Check if login was successful
+      if (response.success && response.data) {
+        // Update auth state (you might want to use a context or state management)
+        // For now, we'll rely on the token being stored in localStorage by the interceptor
+        
+        // Redirect to home
+        router.push('/home');
+      } else {
+        setApiError(response.message || 'Login failed. Please try again.');
+      }
+    } catch (error) {
+      // Handle API errors
+      const apiError = error as ApiError;
+      
+      // Handle field-specific errors
+      if (apiError.errors) {
+        const fieldErrors: LoginFormErrors = {};
+        Object.keys(apiError.errors).forEach((key) => {
+          if (key === 'email' || key === 'password') {
+            fieldErrors[key] = apiError.errors![key][0];
+          }
+        });
+        setErrors(fieldErrors);
+      } else {
+        // Show general error message
+        setApiError(apiError.message || 'An error occurred. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isFormValid = validateLoginForm(formData).isValid;
@@ -136,7 +171,7 @@ export default function LoginPage() {
         <div className={styles.header}>
           <h1 className={styles.title}>Welcome back</h1>
           <p className={styles.subtitle}>
-            Sign in to your Hubble account
+            Sign in to your Hubbble account
           </p>
         </div>
 
@@ -167,6 +202,12 @@ export default function LoginPage() {
             autoComplete="current-password"
             required
           />
+
+          {apiError && (
+            <div className={styles.apiError} role="alert">
+              {apiError}
+            </div>
+          )}
 
           <div className={styles.actions}>
             <Button

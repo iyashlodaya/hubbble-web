@@ -11,7 +11,9 @@ export default function HomePage() {
 
   // Redirect to login if not logged in
   useEffect(() => {
+    console.log('isLoggedIn ---', isLoggedIn())
     if (!isLoggedIn()) {
+      console.log('Redireccting to login page')
       router.push('/login');
     }
   }, [router]);
@@ -34,7 +36,7 @@ export default function HomePage() {
 
       <main className={styles.main}>
         <div className={styles.hero}>
-          <h1 className={styles.title}>Welcome to Hubble</h1>
+          <h1 className={styles.title}>Welcome to Hubbble</h1>
           <p className={styles.subtitle}>
             Your client portal dashboard
           </p>

@@ -18,7 +18,7 @@ export default function Logo() {
           </defs>
         </svg>
       </div>
-      <span className={styles.brandName}>Hubble</span>
+      <span className={styles.brandName}>Hubbble</span>
     </div>
   );
 }
