@@ -123,10 +123,10 @@ export default function SignupPage() {
       if (response.data) {
         // Token is automatically stored in localStorage by the service
         setIsSuccess(true);
-        // Redirect to onboarding after a brief delay to show success message
+        // Redirect to home after a brief delay to show success message
         setTimeout(() => {
           console.log('sending to home')
-          router.push('/onboarding');
+          router.push('/home');
         }, 2000);
       } else {
         setApiError(response.message || 'Signup failed. Please try again.');
@@ -173,15 +173,14 @@ export default function SignupPage() {
           </div>
           <h1 className={styles.successTitle}>Account created!</h1>
           <p className={styles.successText}>
-            Welcome to Hubbble. Let&apos;s get you set up.
+            Welcome to Hubbble.
           </p>
           <Button
             onClick={() => {
-              // Navigate to onboarding using Next.js router
-              router.push('/onboarding');
+              router.push('/home');
             }}
           >
-            Continue to onboarding
+            Continue
           </Button>
         </div>
       </div>
