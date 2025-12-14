@@ -282,9 +282,6 @@ export default function SignupPage() {
               Create account
             </Button>
             
-            <p className={styles.trustHint}>
-              No credit card required
-            </p>
           </div>
         </form>
 
