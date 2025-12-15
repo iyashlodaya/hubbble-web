@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from './create-portal.module.css';
 
 import Header from '@/app/components/Header';
+import { createClient } from '@/lib/api';
 
 interface FormData {
     clientName: string;
@@ -16,6 +17,7 @@ interface FormData {
 
 export default function CreatePortal() {
     const router = useRouter();
+    const [error, setError] = useState('');
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
         clientName: '',
@@ -32,6 +34,7 @@ export default function CreatePortal() {
     };
 
     const handleNext = () => {
+        console.log('Form Data ->', formData);
         if (step === 1 && formData.clientName) {
             setStep(2);
         }
@@ -45,22 +48,35 @@ export default function CreatePortal() {
         }
     };
 
+    const createClientAndProject = async () => {
+        try {
+            setIsSubmitting(true);
+            if (!formData.clientName || !formData.clientEmail) {
+                setError('Client name and email are required');
+                return;
+            }
+            createClient({ name: formData.clientName, email: formData.clientEmail });
+
+            //todo: create project
+            setIsSubmitting(false);
+            setIsSuccess(true);
+        } catch (error) {
+            setIsSubmitting(false);
+            setIsSuccess(false)
+            setError('Failed to create client');
+        }
+    }
 
 
     const handleSubmit = async () => {
         if (!formData.projectName) return;
 
-        setIsSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        setIsSubmitting(false);
-        setIsSuccess(true);
+        await createClientAndProject();
 
         // Brief delay to show success state before redirect
-        setTimeout(() => {
-            router.push('/portal-editor');
-        }, 1500);
+        // setTimeout(() => {
+        //     router.push('/portal-editor');
+        // }, 1500);
     };
 
     return (

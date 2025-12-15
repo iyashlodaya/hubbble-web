@@ -7,6 +7,7 @@ import { isLoggedIn } from '@/lib/auth';
 import { Button, Select } from '@/components/ui';
 import { PortalCard, type PortalStatus } from '@/components/home';
 import styles from './home.module.css';
+import { listClients } from '@/lib/api';
 
 type FilterStatus = 'all' | 'active' | 'waiting' | 'completed';
 
@@ -51,11 +52,18 @@ export default function HomePage() {
   const [filter, setFilter] = useState<FilterStatus>('all');
   const [portals, setPortals] = useState(mockPortals);
 
+  useEffect(() => {
+    const fetchPortals = async () => {
+      const response = await listClients();
+      console.log('Response from List Clients ->', response);
+      // setPortals(response.data);
+    };
+    fetchPortals();
+  }, [])
+
   // Redirect to login if not logged in
   useEffect(() => {
-    console.log('isLoggedIn  in home ---', isLoggedIn());
     if (!isLoggedIn()) {
-      console.log('Redireccting to login page');
       router.push('/login');
     }
   }, [router]);
