@@ -160,13 +160,15 @@ export default function HomePage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                  d="M12 4.5l2.598 1.5 2.902-.5-1.5 2.598 1.5 2.902-2.598-1.5-2.902 1.5.5-2.902-1.5-2.598 2.598 1.5L12 4.5zM6 15l1.5-2.598L9 15l-1.5 2.598L6 15zm9 3l1-1.732L17 18l-1 1.732L15 18zM5 9l.75-1.299L6 9l-.75 1.299L5 9z"
                 />
               </svg>
-              <h3 className={styles.emptyTitle}>No portals found</h3>
+              <h3 className={styles.emptyTitle}>
+                {filter === 'all' ? 'No client portals yet' : 'No portals found'}
+              </h3>
               <p className={styles.emptyText}>
                 {filter === 'all'
-                  ? "You don't have any client portals yet. Create your first one to get started!"
+                  ? 'Create your first client portal to share updates, files, and progress.'
                   : `No ${filter} portals found.`}
               </p>
               {filter === 'all' && (
@@ -185,7 +187,7 @@ export default function HomePage() {
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  Create Client Portal
+                  Create Your First Client Portal
                 </Button>
               )}
             </div>
