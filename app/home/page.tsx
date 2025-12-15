@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Logo from '@/components/auth/Logo';
+import Header from '@/app/components/Header';
 import { isLoggedIn } from '@/lib/auth';
 import { Button, Select } from '@/components/ui';
 import { PortalCard, type PortalStatus } from '@/components/home';
@@ -87,20 +87,7 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <Logo />
-        <nav className={styles.nav}>
-          <button
-            className={styles.logoutButton}
-            onClick={() => {
-              localStorage.clear();
-              router.push('/login');
-            }}
-          >
-            Log out
-          </button>
-        </nav>
-      </header>
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.homeHeader}>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './create-portal.module.css';
 
-import Logo from '@/components/auth/Logo';
+import Header from '@/app/components/Header';
 
 interface FormData {
     clientName: string;
@@ -45,10 +45,7 @@ export default function CreatePortal() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.clear();
-        router.push('/login');
-    };
+
 
     const handleSubmit = async () => {
         if (!formData.projectName) return;
@@ -69,17 +66,8 @@ export default function CreatePortal() {
     return (
         <div className={styles.container}>
             {/* Navbar */}
-            <header className={styles.navbar}>
-                <Logo />
-                <nav className={styles.nav}>
-                    <button
-                        className={styles.logoutButton}
-                        onClick={handleLogout}
-                    >
-                        Log out
-                    </button>
-                </nav>
-            </header>
+            {/* Navbar */}
+            <Header />
 
             <main className={styles.mainContent}>
                 <button className={styles.backButton} onClick={handleBack}>
