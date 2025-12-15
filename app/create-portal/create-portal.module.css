@@ -1,0 +1,430 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logoutButton {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+
+.mainContent {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+    cursor: pointer;
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    align-self: flex-start;
+}
+
+.backButton:hover {
+    color: var(--color-electric-blue);
+    border-color: var(--color-electric-blue);
+}
+
+.backButton:hover {
+    color: var(--color-electric-blue);
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Stepper Container */
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3.5rem;
+    position: relative;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+/* Connector Bar (Background Line) */
+.connector {
+    position: absolute;
+    top: 24px;
+    /* Half of circle height (48px / 2) */
+    left: 2rem;
+    right: 2rem;
+    height: 4px;
+    background: var(--border-color);
+    z-index: 0;
+    transform: translateY(-50%);
+    border-radius: 4px;
+}
+
+.connectorFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-electric-blue) 0%, var(--color-soft-purple) 100%);
+    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    box-shadow: 0 0 10px rgba(0, 168, 232, 0.5);
+    border-radius: 4px;
+}
+
+/* Step Item */
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    cursor: default;
+    width: 120px;
+    /* Fixed width prevents squashing */
+}
+
+/* Step Circle (The Number/Icon) */
+.stepCircle {
+    width: 3rem;
+    /* 48px */
+    height: 3rem;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--border-color);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    margin-bottom: 0.75rem;
+    /* Create a gap in the connector line effectively */
+    box-shadow: 0 0 0 4px var(--bg-app);
+}
+
+/* Active State */
+.stepActive .stepCircle {
+    border-color: var(--color-electric-blue);
+    color: var(--color-electric-blue);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px var(--bg-app), 0 0 20px rgba(0, 168, 232, 0.25);
+}
+
+/* Pulse Animation Wrapper */
+.stepActive .stepCircle::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--color-electric-blue);
+    opacity: 0;
+    animation: pulseRing 2s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+}
+
+/* Completed State */
+.stepCompleted .stepCircle {
+    background: var(--color-electric-blue);
+    border-color: var(--color-electric-blue);
+    color: white;
+    transform: scale(1);
+    box-shadow: 0 0 0 4px var(--bg-app), 0 4px 12px rgba(0, 168, 232, 0.3);
+}
+
+/* Labels */
+.stepLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.stepActive .stepLabel {
+    color: var(--color-electric-blue);
+}
+
+.stepCompleted .stepLabel {
+    color: var(--text-primary);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 640px) {
+    .step {
+        width: auto;
+    }
+
+    .stepLabel {
+        font-size: 0.75rem;
+    }
+
+    .connector {
+        left: 1rem;
+        right: 1rem;
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Form Styles */
+.formCard {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    animation: slideUp 0.4s ease-out;
+    border: 1px solid var(--border-color);
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+.textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.2s;
+    outline: none;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: white;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--color-electric-blue);
+    box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.1);
+}
+
+.helperText {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    align-items: center;
+}
+
+.button {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.buttonPrimary {
+    background: var(--color-electric-blue);
+    color: white;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+    background: var(--accent-color-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 168, 232, 0.2);
+}
+
+.buttonPrimary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.buttonSecondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+}
+
+.buttonSecondary:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+.spinner {
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn {
+    animation: slideUp 0.4s ease-out;
+}
+
+/* Success State */
+.successContainer {
+    text-align: center;
+    padding: 2rem;
+}
+
+.successIcon {
+    width: 64px;
+    height: 64px;
+    background: #E0F2FE;
+    color: var(--color-electric-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 32px;
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 1rem;
+        padding-bottom: 80px;
+        /* Space for sticky footer */
+    }
+
+    .actions {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        border-top: 1px solid var(--border-color);
+        margin-top: 0;
+        z-index: 10;
+        flex-direction: column-reverse;
+    }
+
+    .button {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .stepLabel {
+        display: none;
+        /* Collapse text on small screens as requested */
+    }
+
+    .step {
+        padding-right: 0;
+    }
+}

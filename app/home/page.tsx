@@ -70,8 +70,7 @@ export default function HomePage() {
   }, [filter]);
 
   const handleCreatePortal = () => {
-    // TODO: Navigate to create portal page or open modal
-    console.log('Create portal clicked');
+    router.push('/create-portal');
   };
 
   const handlePortalClick = (id: string) => {
