@@ -123,7 +123,7 @@ export default function ClientSelect({ clients, onSelect, initialValue = '' }: C
                             }}
                         >
                             <span className={styles.plusIcon}>+</span>
-                            Create new client "<strong>{inputValue}</strong>"
+                            Create new client &quot;<strong>{inputValue}</strong>&quot;
                         </li>
                     )}
 
