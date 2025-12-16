@@ -1,65 +1,45 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/app/components/Header';
 import { isLoggedIn } from '@/lib/auth';
 import { Button, Select } from '@/components/ui';
-import { PortalCard, type PortalStatus } from '@/components/home';
+import { PortalCard, type PortalStatus, type PortalCardProps } from '@/components/home';
 import styles from './home.module.css';
-import { listClients } from '@/lib/api';
+import { listProjects } from '@/lib/api';
 
 type FilterStatus = 'all' | 'active' | 'waiting' | 'completed';
-
-// Mock data - replace with actual API call
-const mockPortals = [
-  {
-    id: '1',
-    title: 'Website Redesign Project',
-    clientName: 'Acme Corporation',
-    status: 'active' as PortalStatus,
-    lastUpdated: '2 hours ago',
-    description: 'Complete UI/UX overhaul with modern design system and responsive layouts',
-  },
-  {
-    id: '2',
-    title: 'Brand Identity Package',
-    clientName: 'TechStart Inc.',
-    status: 'waiting' as PortalStatus,
-    lastUpdated: 'yesterday',
-    description: 'Logo design, brand guidelines, and marketing collateral',
-  },
-  {
-    id: '3',
-    title: 'Mobile App Development',
-    clientName: 'Innovate Labs',
-    status: 'completed' as PortalStatus,
-    lastUpdated: '3 weeks ago',
-    description: 'iOS and Android app with real-time synchronization',
-  },
-  {
-    id: '4',
-    title: 'E-commerce Platform',
-    clientName: 'Retail Pro',
-    status: 'active' as PortalStatus,
-    lastUpdated: '5 hours ago',
-    description: 'Full-stack e-commerce solution with payment integration',
-  },
-];
 
 export default function HomePage() {
   const router = useRouter();
   const [filter, setFilter] = useState<FilterStatus>('all');
-  const [portals, setPortals] = useState(mockPortals);
+  const [portals, setPortals] = useState<PortalCardProps[]>([]);
+
+  const filteredPortals = useMemo(() => {
+    if (filter === 'all') return portals;
+    return portals.filter((portal) => portal.status === filter);
+  }, [portals, filter]);
 
   useEffect(() => {
-    const fetchPortals = async () => {
-      const response = await listClients();
-      console.log('Response from List Clients ->', response);
-      // setPortals(response.data);
+    const fetchProjects = async () => {
+      const response = await listProjects();
+      console.log('Response from List Projects ->', response);
+
+      if (response.data) {
+        const mappedPortals = response.data.map((project) => ({
+          id: project.id.toString(),
+          title: project.name,
+          clientName: project.client.name,
+          status: project.status as PortalStatus,
+          lastUpdated: new Date(project.updated_at).toLocaleDateString(),
+          description: project.description,
+        }));
+        setPortals(mappedPortals);
+      }
     };
-    fetchPortals();
-  }, [])
+    fetchProjects();
+  }, []);
 
   // Redirect to login if not logged in
   useEffect(() => {
@@ -68,14 +48,7 @@ export default function HomePage() {
     }
   }, [router]);
 
-  // Filter portals based on selected status
-  useEffect(() => {
-    if (filter === 'all') {
-      setPortals(mockPortals);
-    } else {
-      setPortals(mockPortals.filter((portal) => portal.status === filter));
-    }
-  }, [filter]);
+
 
   const handleCreatePortal = () => {
     router.push('/create-portal');
@@ -134,8 +107,8 @@ export default function HomePage() {
         </div>
 
         <div className={styles.portalsGrid}>
-          {portals.length > 0 ? (
-            portals.map((portal) => (
+          {filteredPortals.length > 0 ? (
+            filteredPortals.map((portal) => (
               <PortalCard
                 key={portal.id}
                 {...portal}

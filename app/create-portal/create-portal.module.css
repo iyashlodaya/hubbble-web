@@ -395,3 +395,77 @@
         padding-right: 0;
     }
 }
+
+/* Custom Select Styles */
+.selectWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.optionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    margin-top: 0.5rem;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 50;
+    list-style: none;
+    padding: 0.25rem;
+}
+
+.option {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s;
+    display: flex;
+    flex-direction: column;
+}
+
+.option:hover,
+.optionHighlighted {
+    background-color: var(--bg-secondary);
+}
+
+.optionName {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.optionEmail {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.newOption {
+    color: var(--color-electric-blue);
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+}
+
+.newOption strong {
+    margin-left: 0.25rem;
+}
+
+.plusIcon {
+    font-size: 1.25rem;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.emptyOption {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}

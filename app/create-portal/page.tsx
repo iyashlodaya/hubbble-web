@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './create-portal.module.css';
 
 import Header from '@/app/components/Header';
-import { createClient } from '@/lib/api';
+import { createClient, createProjects, listClients } from '@/lib/api';
+import ClientSelect from './ClientSelect';
 
 interface FormData {
     clientName: string;
@@ -28,6 +29,9 @@ export default function CreatePortal() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [clients, setClients] = useState<any>([]);
+    const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
+
 
     const updateField = (field: keyof FormData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -55,11 +59,21 @@ export default function CreatePortal() {
                 setError('Client name and email are required');
                 return;
             }
-            createClient({ name: formData.clientName, email: formData.clientEmail });
 
-            //todo: create project
-            setIsSubmitting(false);
-            setIsSuccess(true);
+            let clientId = selectedClientId;
+
+            if (!clientId) {
+                const response = await createClient({ name: formData.clientName, email: formData.clientEmail });
+                clientId = response.data.id;
+            }
+
+            //todo: create project using clientId
+            const response = await createProjects({ project_name: formData.projectName, description: formData.description, project_status: formData.status.toLowerCase(), client_id: clientId });
+
+            if (response && response.data) {
+                console.log('Resppnose=>', response.data);
+            }
+
         } catch (error) {
             setIsSubmitting(false);
             setIsSuccess(false)
@@ -78,6 +92,18 @@ export default function CreatePortal() {
         //     router.push('/portal-editor');
         // }, 1500);
     };
+
+    useEffect(() => {
+        const fetchClients = async () => {
+            const response = await listClients();
+            console.log('Response from List Clients ->', response);
+
+            if (response && response.data) {
+                setClients(response.data)
+            }
+        };
+        fetchClients();
+    }, [])
 
     return (
         <div className={styles.container}>
@@ -148,14 +174,22 @@ export default function CreatePortal() {
                         <div className={styles.fadeIn}>
                             <div className={styles.formGroup}>
                                 <label className={styles.label} htmlFor="clientName">Client Name *</label>
-                                <input
-                                    id="clientName"
-                                    className={styles.input}
-                                    type="text"
-                                    placeholder="e.g. Acme Corp"
-                                    value={formData.clientName}
-                                    onChange={(e) => updateField('clientName', e.target.value)}
-                                    autoFocus
+                                <ClientSelect
+                                    clients={clients}
+                                    onSelect={(clientOrName) => {
+                                        if (typeof clientOrName === 'string') {
+                                            // New client entry
+                                            updateField('clientName', clientOrName);
+                                            setSelectedClientId(null);
+                                            updateField('clientEmail', ''); // Clear email for new client
+                                        } else {
+                                            // Existing client selected
+                                            updateField('clientName', clientOrName.name);
+                                            updateField('clientEmail', clientOrName.email);
+                                            setSelectedClientId(clientOrName.id);
+                                        }
+                                    }}
+                                    initialValue={formData.clientName}
                                 />
                             </div>
 
