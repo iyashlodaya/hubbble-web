@@ -72,6 +72,11 @@ export default function CreatePortal() {
 
             if (response && response.data) {
                 console.log('Resppnose=>', response.data);
+                setIsSubmitting(false);
+                setIsSuccess(true);
+                setTimeout(() => {
+                    router.push('/home');
+                }, 2000);
             }
 
         } catch (error) {
