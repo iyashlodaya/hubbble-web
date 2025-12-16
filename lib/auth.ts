@@ -8,12 +8,12 @@ export function isLoggedIn(): boolean {
   if (typeof window === 'undefined') {
     return false;
   }
-  
-  console.log('IsLoggedIn called');
+
+  // console.log('IsLoggedIn called');
   const accessToken = localStorage.getItem('auth_token');
 
-  console.log('Access Token', accessToken)
-  if(!accessToken) {
+  // console.log('Access Token', accessToken)
+  if (!accessToken) {
     return false
   }
   else {

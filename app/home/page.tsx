@@ -24,7 +24,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchProjects = async () => {
       const response = await listProjects();
-      console.log('Response from List Projects ->', response);
+      // console.log('Response from List Projects ->', response);
 
       if (response.data) {
         const mappedPortals = response.data.map((project) => ({
@@ -56,7 +56,7 @@ export default function HomePage() {
 
   const handlePortalClick = (id: string) => {
     // TODO: Navigate to portal detail page
-    console.log('Portal clicked:', id);
+    // console.log('Portal clicked:', id);
   };
 
   const filterOptions = [

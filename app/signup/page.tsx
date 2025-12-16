@@ -21,7 +21,7 @@ export default function SignupPage() {
     password: '',
     confirmPassword: '',
   });
-  
+
   const [errors, setErrors] = useState<SignupFormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,7 +44,7 @@ export default function SignupPage() {
   ) => {
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, [field]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -53,7 +53,7 @@ export default function SignupPage() {
 
   const handleBlur = (field: keyof SignupFormData) => () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    
+
     // Validate on blur
     const validation = validateSignupForm(formData);
     if (validation.errors[field]) {
@@ -79,13 +79,13 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Clear previous API errors
     setApiError(null);
-    
+
     const validation = validateSignupForm(formData);
     setErrors(validation.errors);
-    
+
     // Validate additional required fields
     if (!additionalFields.full_name.trim()) {
       setErrors((prev) => ({ ...prev, full_name: 'Full name is required' }));
@@ -93,7 +93,7 @@ export default function SignupPage() {
     if (!additionalFields.profession.trim()) {
       setErrors((prev) => ({ ...prev, profession: 'Profession is required' }));
     }
-    
+
     if (!validation.isValid || !additionalFields.full_name.trim() || !additionalFields.profession.trim()) {
       // Mark all fields as touched to show errors
       setTouched({
@@ -107,7 +107,7 @@ export default function SignupPage() {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Call signup API
       const response = await signup({
@@ -117,7 +117,7 @@ export default function SignupPage() {
         profession: additionalFields.profession,
       });
 
-      console.log('Response --->', response);
+      // console.log('Response --->', response);
 
       // Check if signup was successful
       if (response.data) {
@@ -125,7 +125,7 @@ export default function SignupPage() {
         setIsSuccess(true);
         // Redirect to home after a brief delay to show success message
         setTimeout(() => {
-          console.log('sending to home')
+          // console.log('sending to home')
           router.push('/home');
         }, 2000);
       } else {
@@ -134,7 +134,7 @@ export default function SignupPage() {
     } catch (error) {
       // Handle API errors
       const apiError = error as ApiError;
-      
+
       // Handle field-specific errors
       if (apiError.errors) {
         const fieldErrors: SignupFormErrors & { full_name?: string; profession?: string } = {};
@@ -161,7 +161,7 @@ export default function SignupPage() {
         <div className={styles.card}>
           <div className={styles.successAnimation}>
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="32" cy="32" r="32" fill="#10b981" opacity="0.1"/>
+              <circle cx="32" cy="32" r="32" fill="#10b981" opacity="0.1" />
               <path
                 d="M22 32L28 38L42 24"
                 stroke="#10b981"
@@ -191,7 +191,7 @@ export default function SignupPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <Logo />
-        
+
         <div className={styles.header}>
           <h1 className={styles.title}>Create your Hubbble account</h1>
           <p className={styles.subtitle}>
@@ -281,7 +281,7 @@ export default function SignupPage() {
             >
               Create account
             </Button>
-            
+
           </div>
         </form>
 

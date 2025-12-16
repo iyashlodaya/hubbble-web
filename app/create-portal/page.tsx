@@ -38,7 +38,7 @@ export default function CreatePortal() {
     };
 
     const handleNext = () => {
-        console.log('Form Data ->', formData);
+        // console.log('Form Data ->', formData);
         if (step === 1 && formData.clientName) {
             setStep(2);
         }
@@ -71,7 +71,7 @@ export default function CreatePortal() {
             const response = await createProjects({ project_name: formData.projectName, description: formData.description, project_status: formData.status.toLowerCase(), client_id: clientId });
 
             if (response && response.data) {
-                console.log('Resppnose=>', response.data);
+                // console.log('Resppnose=>', response.data);
                 setIsSubmitting(false);
                 setIsSuccess(true);
                 setTimeout(() => {
@@ -101,7 +101,7 @@ export default function CreatePortal() {
     useEffect(() => {
         const fetchClients = async () => {
             const response = await listClients();
-            console.log('Response from List Clients ->', response);
+            // console.log('Response from List Clients ->', response);
 
             if (response && response.data) {
                 setClients(response.data)

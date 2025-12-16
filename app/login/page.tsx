@@ -44,17 +44,17 @@ function validateLoginForm(data: LoginFormData): {
   errors: LoginFormErrors;
 } {
   const errors: LoginFormErrors = {};
-  
+
   const emailValidation = validateEmail(data.email);
   if (!emailValidation.isValid) {
     errors.email = emailValidation.error;
   }
-  
+
   const passwordValidation = validatePassword(data.password);
   if (!passwordValidation.isValid) {
     errors.password = passwordValidation.error;
   }
-  
+
   return {
     isValid: Object.keys(errors).length === 0,
     errors,
@@ -67,7 +67,7 @@ export default function LoginPage() {
     email: '',
     password: '',
   });
-  
+
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,7 +76,7 @@ export default function LoginPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (isLoggedIn()) {
-      console.log('isLoggedIn -', isLoggedIn())
+      // console.log('isLoggedIn -', isLoggedIn())
       router.push('/home');
     }
   }, [router]);
@@ -86,7 +86,7 @@ export default function LoginPage() {
   ) => {
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, [field]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -95,7 +95,7 @@ export default function LoginPage() {
 
   const handleBlur = (field: keyof LoginFormData) => () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    
+
     // Validate on blur
     const validation = validateLoginForm(formData);
     if (validation.errors[field]) {
@@ -105,13 +105,13 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Clear previous API errors
     setApiError(null);
-    
+
     const validation = validateLoginForm(formData);
     setErrors(validation.errors);
-    
+
     if (!validation.isValid) {
       // Mark all fields as touched to show errors
       setTouched({
@@ -122,7 +122,7 @@ export default function LoginPage() {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Call login API
       const response = await login({
@@ -134,7 +134,7 @@ export default function LoginPage() {
       if (response.data) {
         // Update auth state (you might want to use a context or state management)
         // For now, we'll rely on the token being stored in localStorage by the interceptor
-        
+
         // Redirect to home
         router.push('/home');
       } else {
@@ -143,7 +143,7 @@ export default function LoginPage() {
     } catch (error) {
       // Handle API errors
       const apiError = error as ApiError;
-      
+
       // Handle field-specific errors
       if (apiError.errors) {
         const fieldErrors: LoginFormErrors = {};
@@ -168,7 +168,7 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <Logo />
-        
+
         <div className={styles.header}>
           <h1 className={styles.title}>Welcome back</h1>
           <p className={styles.subtitle}>
