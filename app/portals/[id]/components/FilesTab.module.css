@@ -1,0 +1,164 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.addSection {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputs {
+  display: flex;
+  gap: 1rem;
+}
+
+.input {
+  flex: 1;
+}
+
+.listSection {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+}
+
+.tableHeader {
+  display: flex;
+  background-color: var(--bg-secondary);
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.row {
+  display: flex;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background-color: var(--bg-secondary);
+}
+
+.colName { flex: 2; }
+.colType { flex: 1; }
+.colDate { flex: 1; }
+.colAction { width: 40px; display: flex; justify-content: flex-end; }
+
+.link {
+  color: var(--color-electric-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.badge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.linkBadge {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.fileBadge {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--text-placeholder);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.deleteButton:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
+.deleteIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.loadingState, .emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.emptyIcon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--text-placeholder);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .inputs {
+    flex-direction: column;
+  }
+  
+  .tableHeader {
+    display: none;
+  }
+  
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .colName, .colType, .colDate {
+    width: 100%;
+  }
+  
+  .colAction {
+    align-self: flex-end;
+  }
+}

@@ -1,46 +1,42 @@
 .chip {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: 1.5px solid var(--border-color);
-  border-radius: 2rem;
-  background: white;
-  color: var(--text-primary);
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
   transition: all 0.2s ease;
-  white-space: nowrap;
-  font-family: inherit;
-  flex-shrink: 0;
 }
 
-.chip:hover {
-  border-color: var(--accent-color);
-  background: rgba(0, 168, 232, 0.05);
-  transform: translateY(-1px);
-}
-
-.chip.selected {
-  background: linear-gradient(135deg, #00A8E8 0%, #0077B6 100%);
-  border-color: #00A8E8;
+.selected {
+  background-color: var(--color-electric-blue);
   color: white;
-  box-shadow: 0 2px 8px rgba(0, 168, 232, 0.2);
+  border-color: var(--color-electric-blue);
 }
 
-.chip.selected:hover {
-  background: linear-gradient(135deg, #0099D6 0%, #006699 100%);
-  box-shadow: 0 4px 12px rgba(0, 168, 232, 0.3);
+.active {
+  background-color: #ecfdf5;
+  color: #059669;
+  border-color: #10b981;
 }
 
-.chip.custom {
-  border-style: dashed;
+.waiting {
+  background-color: #fffbeb;
+  color: #d97706;
+  border-color: #fbbf24;
 }
 
-.chip.custom.selected {
-  border-style: solid;
+.completed {
+  background-color: #f3f4f6;
+  color: #374151;
+  border-color: #9ca3af;
 }
 
-.chip:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+.custom {
+  background-color: var(--color-soft-purple);
+  color: white;
+  border-color: var(--color-soft-purple);
 }
-

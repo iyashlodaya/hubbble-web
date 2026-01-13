@@ -19,6 +19,7 @@ export interface CreateProjectsRequest {
 export interface ProjectUpdate {
     id: number;
     project_id: number;
+    title: string;
     content: string;
     created_at: string;
     updated_at: string;
@@ -102,8 +103,8 @@ export const getProjectUpdates = async (projectId: number): Promise<ApiResponse<
 /**
  * Add an update to a project
  */
-export const addProjectUpdate = async (projectId: number, content: string): Promise<ApiResponse<ProjectUpdate>> => {
-    const response = await apiClient.post<ApiResponse<ProjectUpdate>>(`/projects/${projectId}/updates`, { content });
+export const addProjectUpdate = async (projectId: number, title: string, content: string): Promise<ApiResponse<ProjectUpdate>> => {
+    const response = await apiClient.post<ApiResponse<ProjectUpdate>>(`/projects/${projectId}/updates`, { title, content });
     return response.data;
 };
 

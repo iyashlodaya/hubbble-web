@@ -6,19 +6,20 @@ import styles from './Chip.module.css';
 interface ChipProps {
   label: string;
   selected?: boolean;
-  onClick: () => void;
-  variant?: 'default' | 'custom';
+  onClick?: () => void;
+  variant?: 'default' | 'active' | 'waiting' | 'completed' | 'custom';
 }
 
 export default function Chip({ label, selected = false, onClick, variant = 'default' }: ChipProps) {
+  const variantClass = styles[variant] || '';
+  
   return (
-    <button
-      type="button"
-      className={`${styles.chip} ${selected ? styles.selected : ''} ${variant === 'custom' ? styles.custom : ''}`}
+    <div
+      className={`${styles.chip} ${selected ? styles.selected : ''} ${variantClass}`}
       onClick={onClick}
     >
       {label}
-    </button>
+    </div>
   );
 }
 
