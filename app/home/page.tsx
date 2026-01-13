@@ -55,8 +55,7 @@ export default function HomePage() {
   };
 
   const handlePortalClick = (id: string) => {
-    // TODO: Navigate to portal detail page
-    // console.log('Portal clicked:', id);
+    router.push(`/portals/${id}`);
   };
 
   const filterOptions = [
