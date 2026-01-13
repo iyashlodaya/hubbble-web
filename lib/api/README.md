@@ -21,19 +21,19 @@ lib/api/
 ### Basic Example
 
 ```typescript
-import { login } from '@/lib/api';
+import { login } from "@/lib/api";
 
 // In your component
 const handleLogin = async () => {
   try {
     const response = await login({
-      email: 'user@example.com',
-      password: 'password123'
+      email: "user@example.com",
+      password: "password123",
     });
-    
-    if (response.success) {
+
+    if (response.data) {
       // Token is automatically stored in localStorage
-      router.push('/home');
+      router.push("/home");
     }
   } catch (error) {
     // Error is already transformed by interceptor
@@ -45,25 +45,28 @@ const handleLogin = async () => {
 ### Adding New Services
 
 1. Create a new service file in `services/`:
+
 ```typescript
 // lib/api/services/users.service.ts
-import { apiClient } from '../client';
-import type { ApiResponse } from '../types';
+import { apiClient } from "../client";
+import type { ApiResponse } from "../types";
 
 export const getUsers = async (): Promise<ApiResponse<User[]>> => {
-  const response = await apiClient.get<ApiResponse<User[]>>('/users');
+  const response = await apiClient.get<ApiResponse<User[]>>("/users");
   return response.data;
 };
 ```
 
 2. Export it from `services/index.ts`:
+
 ```typescript
-export * from './users.service';
+export * from "./users.service";
 ```
 
 3. Use it in your components:
+
 ```typescript
-import { getUsers } from '@/lib/api';
+import { getUsers } from "@/lib/api";
 ```
 
 ## Environment Variables
@@ -79,17 +82,20 @@ If not set, defaults to `http://localhost:3000/api`
 ## Features
 
 ### Request Interceptor
+
 - Automatically adds auth token from localStorage
 - Adds common headers
 - Adds request ID for tracking
 
 ### Response Interceptor
+
 - Handles 401 errors (auto-logout and redirect)
 - Handles 403 errors
 - Transforms errors to consistent format
 - Network error handling
 
 ### Token Management
+
 - Tokens are automatically stored in localStorage on successful login/signup
 - Tokens are automatically added to requests via Authorization header
 - Tokens are cleared on 401 errors
@@ -107,4 +113,3 @@ interface ApiError {
 ```
 
 Field-specific errors are available in `errors` object, which can be mapped to form fields.
-
