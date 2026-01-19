@@ -48,25 +48,43 @@ export default function PublicPortalPage() {
     setTheme(newTheme);
     localStorage.setItem('hubbble-theme', newTheme);
     
-    // Play switch sound
+    // Play mechanical switch sound
     try {
-      // Use a simple oscillator for a clean switch sound
       const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Part 1: The 'Click' (Noise)
+      const bufferSize = audioCtx.sampleRate * 0.01; // 10ms burst
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      
+      const noiseSource = audioCtx.createBufferSource();
+      noiseSource.buffer = buffer;
+      const noiseGain = audioCtx.createGain();
+      noiseGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.01);
+      
+      noiseSource.connect(noiseGain);
+      noiseGain.connect(audioCtx.destination);
+      
+      // Part 2: The 'Resonance' (Sine)
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
 
       oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // High pitch for switch
-      oscillator.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1); // Slide down
-
-      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+      oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); 
+      
+      gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
 
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination);
 
+      noiseSource.start();
       oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 0.1);
+      oscillator.stop(audioCtx.currentTime + 0.05);
     } catch (err) {
       console.warn('Audio playback failed', err);
     }
