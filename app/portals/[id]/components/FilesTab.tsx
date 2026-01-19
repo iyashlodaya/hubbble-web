@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button, Input, ConfirmModal } from '@/components/ui';
+import { Button, Input, ConfirmModal, Toast } from '@/components/ui';
 import { getProjectFiles, addProjectFileLink, deleteProjectFileLink } from '@/lib/api';
 import type { ProjectFileLink } from '@/lib/api';
 import styles from './FilesTab.module.css';
@@ -19,6 +19,7 @@ export default function FilesTab({ projectId }: FilesTabProps) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -52,10 +53,11 @@ export default function FilesTab({ projectId }: FilesTabProps) {
         setItems([...items, response.data]);
         setTitle('');
         setUrl('');
+        setToast({ message: 'Link added successfully', type: 'success' });
       }
     } catch (error) {
       console.error('Failed to add link:', error);
-      alert('Failed to add link.');
+      setToast({ message: 'Failed to add link.', type: 'error' });
     } finally {
       setSubmitting(false);
     }
@@ -70,9 +72,10 @@ export default function FilesTab({ projectId }: FilesTabProps) {
       setItems(items.filter(item => item.id !== itemToDelete));
       setDeleteModalOpen(false);
       setItemToDelete(null);
+      setToast({ message: 'Item deleted successfully', type: 'success' });
     } catch (error) {
       console.error('Failed to delete link:', error);
-      alert('Failed to delete item.');
+      setToast({ message: 'Failed to delete item.', type: 'error' });
     } finally {
       setDeleting(false);
     }
@@ -168,6 +171,13 @@ export default function FilesTab({ projectId }: FilesTabProps) {
         variant="danger"
         isLoading={deleting}
       />
+      {toast && (
+        <Toast 
+          message={toast.message} 
+          type={toast.type} 
+          onClose={() => setToast(null)} 
+        />
+      )}
     </div>
   );
 }

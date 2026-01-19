@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button, ConfirmModal } from '@/components/ui';
+import { Button, ConfirmModal, Toast } from '@/components/ui';
 import { getProjectUpdates, addProjectUpdate, deleteProjectUpdate } from '@/lib/api';
 import type { ProjectUpdate } from '@/lib/api';
 import styles from './UpdatesTab.module.css';
@@ -19,6 +19,7 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [updateToDelete, setUpdateToDelete] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -56,7 +57,7 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
       }
     } catch (error) {
       console.error('Failed to post update:', error);
-      alert('Failed to post update. Please try again.');
+      setToast({ message: 'Failed to post update. Please try again.', type: 'error' });
     } finally {
       setPosting(false);
     }
@@ -67,13 +68,15 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
 
     setDeleting(true);
     try {
+      console.log('projectId', projectId, 'updateToDelete', updateToDelete);
       await deleteProjectUpdate(parseInt(projectId), updateToDelete);
       setUpdates(prev => prev.filter(u => u.id !== updateToDelete));
       setDeleteModalOpen(false);
       setUpdateToDelete(null);
+      setToast({ message: 'Update deleted successfully', type: 'success' });
     } catch (error) {
       console.error('Failed to delete update:', error);
-      alert('Failed to delete update.');
+      setToast({ message: error instanceof Error ? error.message : 'Failed to delete update', type: 'error' });
     } finally {
       setDeleting(false);
     }
@@ -161,6 +164,13 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
         variant="danger"
         isLoading={deleting}
       />
+      {toast && (
+        <Toast 
+          message={toast.message} 
+          type={toast.type} 
+          onClose={() => setToast(null)} 
+        />
+      )}
     </div>
   );
 }

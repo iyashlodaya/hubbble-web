@@ -113,6 +113,7 @@ export const addProjectUpdate = async (projectId: number, title: string, content
  */
 export const deleteProjectUpdate = async (projectId: number, updateId: number): Promise<ApiResponse<void>> => {
     const response = await apiClient.delete<ApiResponse<void>>(`/projects/${projectId}/updates/${updateId}`);
+    console.log(response.data);
     return response.data;
 };
 
