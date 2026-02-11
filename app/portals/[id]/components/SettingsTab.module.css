@@ -59,6 +59,88 @@
   margin-top: 1rem;
 }
 
+/* Branding section */
+.brandingHint {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.colorSwatches {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.swatch:hover {
+  transform: scale(1.15);
+}
+
+.swatchActive {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 3px var(--bg-primary), 0 0 0 5px currentColor;
+}
+
+.customColorRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.colorInput {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  padding: 2px;
+  background: none;
+}
+
+.brandingPreview {
+  background: #0c0c0e;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.previewAccentBar {
+  height: 3px;
+  width: 100%;
+}
+
+.previewContent {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.previewName {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.previewTagline {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
 @media (max-width: 640px) {
   .actions {
     flex-direction: column-reverse;
@@ -68,3 +150,4 @@
     width: 100%;
   }
 }
+

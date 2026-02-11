@@ -31,6 +31,9 @@ export interface ProjectFileLink {
     title: string;
     url: string;
     type: 'file' | 'link';
+    file_size: number | null;
+    mime_type: string | null;
+    storage_path: string | null;
     created_at: string;
     updated_at: string;
 }
@@ -130,6 +133,21 @@ export const getProjectFiles = async (projectId: number): Promise<ApiResponse<Pr
  */
 export const addProjectFileLink = async (projectId: number, fileLinkObj: { title: string; url: string; type: 'file' | 'link' }): Promise<ApiResponse<ProjectFileLink>> => {
     const response = await apiClient.post<ApiResponse<ProjectFileLink>>(`/projects/${projectId}/files`, fileLinkObj);
+    return response.data;
+};
+
+/**
+ * Upload a file to a project
+ */
+export const uploadProjectFile = async (projectId: number, file: File, title?: string): Promise<ApiResponse<ProjectFileLink>> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (title) formData.append('title', title);
+    const response = await apiClient.post<ApiResponse<ProjectFileLink>>(
+        `/projects/${projectId}/files/upload`,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
     return response.data;
 };
 
