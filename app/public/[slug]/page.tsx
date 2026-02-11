@@ -5,6 +5,12 @@ import { useParams } from 'next/navigation';
 import { getPublicPortal, type PublicPortalData } from '@/lib/api';
 import styles from './PublicPortal.module.css';
 
+interface PortalBranding {
+  freelancerName: string;
+  tagline: string;
+  accentColor: string;
+}
+
 export default function PublicPortalPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -12,6 +18,7 @@ export default function PublicPortalPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [branding, setBranding] = useState<PortalBranding>({ freelancerName: '', tagline: '', accentColor: '#00A8E8' });
 
   // Load theme preference
   useEffect(() => {
@@ -20,6 +27,18 @@ export default function PublicPortalPage() {
       setTheme(savedTheme);
     }
   }, []);
+
+  // Load branding from localStorage
+  useEffect(() => {
+    if (slug) {
+      try {
+        const stored = localStorage.getItem(`portal-branding-${slug}`);
+        if (stored) {
+          setBranding(JSON.parse(stored));
+        }
+      } catch {}
+    }
+  }, [slug]);
 
   useEffect(() => {
     const fetchPortalData = async () => {
@@ -130,8 +149,13 @@ export default function PublicPortalPage() {
     });
   };
 
+  const accent = branding.accentColor || '#00A8E8';
+
   return (
-    <div className={`${styles.container} ${theme === 'light' ? styles.whiteTheme : ''}`}>
+    <div
+      className={`${styles.container} ${theme === 'light' ? styles.whiteTheme : ''}`}
+      style={{ '--accent': accent, '--accent-20': `${accent}33`, '--accent-10': `${accent}1A` } as React.CSSProperties}
+    >
       <button 
         className={styles.themeToggle} 
         onClick={toggleTheme}
@@ -148,6 +172,22 @@ export default function PublicPortalPage() {
         )}
       </button>
 
+      {/* Freelancer Branding Bar */}
+      {branding.freelancerName && (
+        <div className={styles.brandingBar}>
+          <div className={styles.brandingAccentLine} style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }} />
+          <div className={styles.brandingContent}>
+            <span className={styles.brandingName}>{branding.freelancerName}</span>
+            {branding.tagline && (
+              <>
+                <span className={styles.brandingDivider}>·</span>
+                <span className={styles.brandingTagline}>{branding.tagline}</span>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <main className={styles.main}>
         {/* Header */}
         <header className={styles.header}>
@@ -161,6 +201,24 @@ export default function PublicPortalPage() {
             </div>
           </div>
         </header>
+
+        {/* Project Overview */}
+        {data.description && (
+          <section className={styles.overviewSection}>
+            <div className={styles.overviewCard}>
+              <div className={styles.overviewAccent} style={{ background: `linear-gradient(180deg, ${accent}, transparent)` }} />
+              <div className={styles.overviewBody}>
+                <h2 className={styles.overviewLabel}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                  Project Overview
+                </h2>
+                <p className={styles.overviewText}>{data.description}</p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Dashboard Grid - Bird's Eye View */}
         <section className={styles.dashboardGrid}>
@@ -265,7 +323,16 @@ export default function PublicPortalPage() {
             </div>
           </aside>
         </div>
+
+        {/* Footer */}
+        {branding.freelancerName && (
+          <footer className={styles.portalFooter}>
+            <span>Powered by</span>
+            <span className={styles.footerBrand}>{branding.freelancerName}</span>
+          </footer>
+        )}
       </main>
     </div>
   );
 }
+
