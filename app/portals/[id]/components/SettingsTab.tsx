@@ -15,6 +15,8 @@ export interface PortalBranding {
   freelancerName: string;
   tagline: string;
   accentColor: string;
+  avatarType: 'initials' | 'image' | 'emoji';
+  avatarValue: string;
 }
 
 const STATUS_OPTIONS = [
@@ -38,14 +40,21 @@ function getBrandingKey(slug: string) {
   return `portal-branding-${slug}`;
 }
 
+const DEFAULT_BRANDING: PortalBranding = { 
+  freelancerName: "", 
+  tagline: "", 
+  accentColor: "#00A8E8",
+  avatarType: 'initials',
+  avatarValue: ''
+};
+
 export function loadBranding(slug: string): PortalBranding {
-  if (typeof window === "undefined")
-    return { freelancerName: "", tagline: "", accentColor: "#00A8E8" };
+  if (typeof window === "undefined") return DEFAULT_BRANDING;
   try {
     const stored = localStorage.getItem(getBrandingKey(slug));
-    if (stored) return JSON.parse(stored);
+    if (stored) return { ...DEFAULT_BRANDING, ...JSON.parse(stored) };
   } catch {}
-  return { freelancerName: "", tagline: "", accentColor: "#00A8E8" };
+  return DEFAULT_BRANDING;
 }
 
 export default function SettingsTab({ project, onUpdate }: SettingsTabProps) {
@@ -55,11 +64,7 @@ export default function SettingsTab({ project, onUpdate }: SettingsTabProps) {
   const [saving, setSaving] = useState(false);
 
   // Branding state
-  const [branding, setBranding] = useState<PortalBranding>({
-    freelancerName: "",
-    tagline: "",
-    accentColor: "#00A8E8",
-  });
+  const [branding, setBranding] = useState<PortalBranding>(DEFAULT_BRANDING);
   const [brandingSaved, setBrandingSaved] = useState(false);
 
   useEffect(() => {
@@ -217,6 +222,57 @@ export default function SettingsTab({ project, onUpdate }: SettingsTabProps) {
               }
               placeholder="e.g. Design & Development"
             />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label}>Avatar Style</label>
+            <div className={styles.avatarOptions}>
+              <label className={styles.avatarOption}>
+                <input 
+                  type="radio" 
+                  name="avatarType" 
+                  checked={branding.avatarType === 'initials'}
+                  onChange={() => setBranding({ ...branding, avatarType: 'initials' })}
+                />
+                Initials
+              </label>
+              <label className={styles.avatarOption}>
+                <input 
+                  type="radio" 
+                  name="avatarType" 
+                  checked={branding.avatarType === 'emoji'}
+                  onChange={() => setBranding({ ...branding, avatarType: 'emoji' })}
+                />
+                Emoji
+              </label>
+              <label className={styles.avatarOption}>
+                <input 
+                  type="radio" 
+                  name="avatarType" 
+                  checked={branding.avatarType === 'image'}
+                  onChange={() => setBranding({ ...branding, avatarType: 'image' })}
+                />
+                Image
+              </label>
+            </div>
+
+            {branding.avatarType === 'emoji' && (
+              <Input
+                value={branding.avatarValue}
+                onChange={(e) => setBranding({ ...branding, avatarValue: e.target.value })}
+                placeholder="🚀"
+                className={styles.emojiInput}
+                maxLength={2}
+              />
+            )}
+
+            {branding.avatarType === 'image' && (
+              <Input
+                value={branding.avatarValue}
+                onChange={(e) => setBranding({ ...branding, avatarValue: e.target.value })}
+                placeholder="https://example.com/avatar.jpg"
+              />
+            )}
           </div>
 
           <div className={styles.field}>

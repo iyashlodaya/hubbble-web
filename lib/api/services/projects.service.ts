@@ -49,6 +49,13 @@ export interface CreateProjectsResponse {
     updated_at: string;
 }
 
+export interface FreelancerBranding {
+    id?: number;
+    full_name: string;
+    avatar_url: string | null;
+    accent_color: string | null;
+}
+
 export interface ListProjectResponse {
     id: number;
     client: {
@@ -59,6 +66,7 @@ export interface ListProjectResponse {
     name: string;
     status: string;
     public_slug: string;
+    freelancer?: FreelancerBranding;
     created_at: string;
     updated_at: string;
 }

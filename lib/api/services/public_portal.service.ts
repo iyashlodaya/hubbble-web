@@ -1,10 +1,11 @@
 import { apiClient } from '../client';
 import type { ApiResponse } from '../types';
-import type { ListProjectResponse, ProjectUpdate, ProjectFileLink } from './projects.service';
+import type { ListProjectResponse, ProjectUpdate, ProjectFileLink, FreelancerBranding } from './projects.service';
 
 export interface PublicPortalData extends ListProjectResponse {
     updates: ProjectUpdate[];
     files: ProjectFileLink[];
+    freelancer: FreelancerBranding;
 }
 
 /**

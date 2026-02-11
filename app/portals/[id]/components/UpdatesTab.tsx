@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button, ConfirmModal, Toast } from '@/components/ui';
+import { Button, ConfirmModal, Toast, EmptyState } from '@/components/ui';
 import { getProjectUpdates, addProjectUpdate, deleteProjectUpdate } from '@/lib/api';
 import type { ProjectUpdate } from '@/lib/api';
 import styles from './UpdatesTab.module.css';
@@ -131,7 +131,15 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
         {loading ? (
           <div className={styles.loadingState}>Loading updates...</div>
         ) : updates.length === 0 ? (
-          <div className={styles.emptyState}>No updates posted yet.</div>
+          <EmptyState
+            icon={
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            }
+            title="No updates yet"
+            description="Share your first project update to keep your client informed."
+          />
         ) : (
           updates.map((update) => (
             <div key={update.id} className={styles.updateCard}>

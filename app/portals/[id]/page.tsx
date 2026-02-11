@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
-import { Tabs, Button, Chip, Toast } from '@/components/ui';
+import { Tabs, Button, Chip, Toast, Avatar, Skeleton } from '@/components/ui';
 import { getProject } from '@/lib/api';
 import type { ListProjectResponse, PortalStatus } from '@/lib/api';
 import { isLoggedIn } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/api/services/auth.service';
 import styles from './PortalEditor.module.css';
 
 // Components for tabs
@@ -96,10 +97,17 @@ export default function PortalEditorPage() {
         <Header />
         <div className={styles.skeletonContainer}>
            <div className={styles.skeletonLayout}>
-             <div className={styles.skeletonSidebar} />
+             <Skeleton className={styles.skeletonSidebar} width={250} height="100%" />
              <div className={styles.skeletonMain}>
-               <div className={styles.skeletonHeader} />
-               <div className={styles.skeletonContent} />
+               <div className={styles.skeletonHeader} style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '2rem' }}>
+                 <Skeleton variant="circular" width={48} height={48} />
+                 <div style={{ flex: 1 }}>
+                   <Skeleton width={200} height={24} className="mb-2" />
+                   <Skeleton width={150} height={16} />
+                 </div>
+               </div>
+               <Skeleton variant="rectangular" width="100%" height={200} />
+               <Skeleton variant="rectangular" width="100%" height={200} className="mt-4" />
              </div>
            </div>
         </div>
@@ -119,8 +127,13 @@ export default function PortalEditorPage() {
     );
   }
 
+  const accentColor = project.freelancer?.accent_color || '#00A8E8';
+
   return (
-    <div className={styles.container}>
+    <div 
+      className={styles.container}
+      style={{ '--accent-color': accentColor } as React.CSSProperties}
+    >
       <Header />
       
       <div className={styles.layout}>
@@ -135,10 +148,20 @@ export default function PortalEditorPage() {
         <main className={styles.main}>
           <div className={styles.portalHeader}>
             <div className={styles.headerLeft}>
+              <div className={styles.headerAvatar}>
+                 <Avatar 
+                    src={project.freelancer?.avatar_url} 
+                    initials={project.freelancer?.full_name?.split(' ').map(n => n[0]).join('').substring(0, 2) || 'FL'} 
+                    size="lg"
+                 />
+              </div>
               <div className={styles.projectContext}>
-                <h1 className={styles.clientName}>{project.client.name}</h1>
-                <div className={styles.projectInfo}>
-                  <span className={styles.projectName}>{project.name}</span>
+                <div className={styles.greeting}>
+                  Welcome back, {project.freelancer?.full_name?.split(' ')[0] || 'Freelancer'} 👋
+                </div>
+                <h1 className={styles.projectName}>{project.name}</h1>
+                <div className={styles.metaWrapper}>
+                  <span className={styles.clientName}>for {project.client.name}</span>
                   <Chip 
                     label={project.status.charAt(0).toUpperCase() + project.status.slice(1)} 
                     variant={project.status as any}

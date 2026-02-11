@@ -121,15 +121,25 @@
 /* Header Section */
 .header {
   margin-bottom: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   animation: fadeInDown 0.8s ease-out;
 }
 
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.headerLeft {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.headerAvatar {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  border: 4px solid var(--card-bg);
+  box-shadow: var(--shadow);
 }
 
 .headerInfo h1 {
@@ -141,6 +151,14 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.greeting {
+  font-size: 1.125rem;
+  color: var(--text-dim);
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .projectName {
