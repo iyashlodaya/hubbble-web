@@ -1,0 +1,58 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  /* Ensure it takes up space and centers contents */
+  width: 100%;
+}
+
+/* Optional dashed border style if we want to support a variant */
+.dashed {
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-secondary);
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.container:hover .iconWrapper {
+  transform: scale(1.05);
+  background-color: var(--bg-hover, #e5e7eb);
+  color: var(--text-primary);
+}
+
+.title {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 0.9375rem; /* text-sm+ */
+  color: var(--text-secondary);
+  max-width: 28rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}

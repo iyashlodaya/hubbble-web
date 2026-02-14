@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button';
+import styles from './EmptyState.module.css';
 
 interface EmptyStateProps {
   icon?: React.ReactNode;
@@ -8,6 +9,7 @@ interface EmptyStateProps {
   actionLabel?: string;
   onAction?: () => void;
   className?: string;
+  variant?: 'default' | 'dashed';
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
@@ -17,21 +19,30 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   actionLabel,
   onAction,
   className = '',
+  variant = 'default',
 }) => {
   return (
-    <div className={`flex flex-col items-center justify-center py-12 px-4 text-center ${className}`}>
+    <div 
+      className={`
+        ${styles.container} 
+        ${variant === 'dashed' ? styles.dashed : ''} 
+        ${className}
+      `}
+    >
       {icon && (
-        <div className="mb-4 text-gray-400 bg-gray-50 p-4 rounded-full">
+        <div className={styles.iconWrapper}>
           {icon}
         </div>
       )}
-      <h3 className="text-lg font-medium text-gray-900 mb-1">{title}</h3>
-      {description && <p className="text-gray-500 mb-6 max-w-sm">{description}</p>}
+      <h3 className={styles.title}>{title}</h3>
+      {description && <p className={styles.description}>{description}</p>}
       
       {actionLabel && onAction && (
-        <Button onClick={onAction} variant="primary">
-          {actionLabel}
-        </Button>
+        <div className={styles.actions}>
+          <Button onClick={onAction} variant="primary">
+            {actionLabel}
+          </Button>
+        </div>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, ConfirmModal, Toast, EmptyState } from '@/components/ui';
 import { getProjectUpdates, addProjectUpdate, deleteProjectUpdate } from '@/lib/api';
 import type { ProjectUpdate } from '@/lib/api';
+import { MessageSquare } from 'lucide-react';
 import styles from './UpdatesTab.module.css';
 
 interface UpdatesTabProps {
@@ -132,13 +133,10 @@ export default function UpdatesTab({ projectId }: UpdatesTabProps) {
           <div className={styles.loadingState}>Loading updates...</div>
         ) : updates.length === 0 ? (
           <EmptyState
-            icon={
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-            }
+            icon={<MessageSquare size={32} />}
             title="No updates yet"
-            description="Share your first project update to keep your client informed."
+            description="Share your first project update to keep your client informed. Updates will appear here in a chronological timeline."
+            variant="dashed"
           />
         ) : (
           updates.map((update) => (
