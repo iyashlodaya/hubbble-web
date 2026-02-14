@@ -1,0 +1,54 @@
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px; /* rounded-full */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 2px white; /* shadow-sm + ring-2 ring-white */
+  background-color: var(--accent, var(--accent-color, #00A8E8));
+  color: white;
+}
+
+.sm {
+  width: 2rem; /* w-8 */
+  height: 2rem; /* h-8 */
+  font-size: 0.75rem; /* text-xs */
+}
+
+.md {
+  width: 2.5rem; /* w-10 */
+  height: 2.5rem; /* h-10 */
+  font-size: 0.875rem; /* text-sm */
+}
+
+.lg {
+  width: 3rem; /* w-12 */
+  height: 3rem; /* h-12 */
+  font-size: 1rem; /* text-base */
+}
+
+.xl {
+  width: 4rem; /* w-16 */
+  height: 4rem; /* h-16 */
+  font-size: 1.125rem; /* text-lg */
+}
+
+/* Adding an extra size for safety if they want larger */
+.xxl {
+  width: 5rem; /* w-20 */
+  height: 5rem; /* h-20 */
+  font-size: 1.25rem; /* text-xl */
+}
+
+.image {
+  object-fit: cover;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.initials {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transform: scale(1.1);
+}

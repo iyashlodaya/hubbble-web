@@ -68,8 +68,8 @@ export default function UserMenu() {
       >
         <Avatar 
             initials={getInitials(user.full_name)} 
-            size="sm" 
-            className="w-9 h-9 border-2 border-white shadow-sm"
+            size="lg" 
+            className="border-2 border-white shadow-sm"
         />
         <ChevronDown size={14} className={styles.chevron} />
       </button>

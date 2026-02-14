@@ -1,25 +1,28 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
+import styles from './Avatar.module.css';
 
 interface AvatarProps {
   src?: string | null;
   initials?: string;
   alt?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   className?: string;
 }
 
 const sizeClasses = {
-  sm: 'w-8 h-8 text-xs',
-  md: 'w-10 h-10 text-sm',
-  lg: 'w-12 h-12 text-base',
-  xl: 'w-14 h-14 text-lg',
+  sm: styles.sm,
+  md: styles.md,
+  lg: styles.lg,
+  xl: styles.xl,
+  '2xl': styles.xxl,
 };
 
 export const Avatar: React.FC<AvatarProps> = ({
   src,
   initials,
   alt = 'Avatar',
-  size = 'md',
+  size = 'xl',
   className = '',
 }) => {
   const [imageError, setImageError] = useState(false);
@@ -29,21 +32,22 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center overflow-hidden rounded-full shadow-sm ring-2 ring-white ${sizeClasses[size]} ${className}`}
+      className={`${styles.avatar} ${sizeClasses[size]} ${className}`}
       style={{
         backgroundColor: showImage ? 'transparent' : 'var(--accent, var(--accent-color, #00A8E8))',
         color: showImage ? 'inherit' : '#ffffff',
       }}
     >
       {showImage ? (
-        <img
-          src={src}
+        <Image
+          src={src!}
           alt={alt}
-          className="h-full w-full object-cover transition-opacity duration-300 ease-in-out"
+          fill
+          className={styles.image}
           onError={() => setImageError(true)}
         />
       ) : (
-        <span className="font-medium uppercase tracking-wider scale-110">
+        <span className={styles.initials}>
           {initials || '?'}
         </span>
       )}
