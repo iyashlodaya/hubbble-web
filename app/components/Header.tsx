@@ -1,26 +1,19 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Logo from '@/components/auth/Logo';
+import UserMenu from './UserMenu';
 import styles from './Header.module.css';
 
 export default function Header() {
-    const router = useRouter();
-
     return (
         <header className={styles.header}>
-            <Logo />
+            <Link href="/home" className={styles.logoLink}>
+                <Logo />
+            </Link>
             <nav className={styles.nav}>
-                <button
-                    className={styles.logoutButton}
-                    onClick={() => {
-                        localStorage.clear();
-                        router.push('/login');
-                    }}
-                >
-                    Log out
-                </button>
+                <UserMenu />
             </nav>
         </header>
     );
