@@ -5,6 +5,7 @@ import styles from './Avatar.module.css';
 interface AvatarProps {
   src?: string | null;
   initials?: string;
+  emoji?: string;
   alt?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   className?: string;
@@ -21,6 +22,7 @@ const sizeClasses = {
 export const Avatar: React.FC<AvatarProps> = ({
   src,
   initials,
+  emoji,
   alt = 'Avatar',
   size = 'xl',
   className = '',
@@ -47,9 +49,15 @@ export const Avatar: React.FC<AvatarProps> = ({
           onError={() => setImageError(true)}
         />
       ) : (
-        <span className={styles.initials}>
-          {initials || '?'}
-        </span>
+        emoji ? (
+          <span className={styles.emoji}>
+            {emoji}
+          </span>
+        ) : (
+          <span className={styles.initials}>
+            {initials || '?'}
+          </span>
+        )
       )}
     </div>
   );

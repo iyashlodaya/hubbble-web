@@ -52,3 +52,14 @@
   letter-spacing: 0.05em;
   transform: scale(1.1);
 }
+
+.emoji {
+  line-height: 1;
+  text-transform: none;
+}
+
+.sm .emoji { font-size: 1.1rem; }
+.md .emoji { font-size: 1.3rem; }
+.lg .emoji { font-size: 1.6rem; }
+.xl .emoji { font-size: 2rem; }
+.xxl .emoji { font-size: 2.5rem; }

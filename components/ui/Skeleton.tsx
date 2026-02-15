@@ -13,7 +13,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   width,
   height,
 }) => {
-  const baseClasses = 'animate-shimmer bg-gray-200 bg-[length:200%_100%]';
+  const baseClasses = 'animate-shimmer bg-[length:200%_100%]';
   
   const variantClasses = {
     rectangular: 'rounded-md',
